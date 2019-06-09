@@ -58,11 +58,22 @@ class BrowserStream extends ParallelTransform {
     this.browserPromise = puppeteer.launch();
   }
 
+  async refreshPage(page) {
+    await page.close();
+    return await this.generatePage();
+  }
+
+  async generatePage() {
+    const browser = await this.browserPromise;
+    const page = await browser.newPage();
+    page.refreshPage = () => this.refreshPage(page);
+    return page;
+  }
+
   async _parallelTransform(chunk, encoding) {
     let page = this.pageArray.pop();
     if (!page) {
-      const browser = await this.browserPromise;
-      page = await browser.newPage();
+      page = { instance: await this.generatePage() };
     }
     const { Vendor, Title } = chunk;
     const result = await ShopApi.getProductImage(page, Vendor, Title);

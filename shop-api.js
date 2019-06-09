@@ -9,13 +9,14 @@ const shopConfig = require("./shop-config");
  */
 async function loadHtml(page, url) {
   try {
-    await page.goto(url);
-    const bodyHTML = await page.evaluate(() => document.body.innerHTML);
+    await page.instance.goto(url);
+    const bodyHTML = await page.instance.evaluate(() => document.body.innerHTML);
     return bodyHTML;
   } catch (err) {
     if (err.message === "Navigation Timeout Exceeded: 30000ms exceeded") {
       console.log("retrying");
       console.log(url);
+      page.instance = await page.instance.refreshPage();
       return loadHtml(page, url);
     }
     console.error(err.message);
