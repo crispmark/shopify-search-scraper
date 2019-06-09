@@ -48,6 +48,16 @@ const variant4 = {
   productAttr: "src"
 }
 
+/**
+ * A shop config
+ * @typedef {Object} ShopConfig
+ * @property {function} searchUrl The function to generate a search url from a product name
+ * @property {string} searchPath A css selector pointing to the first search result
+ * @property {string} searchAttr The attribute of html element containing the search result product page URL
+ * @property {string} productPath A css selector pointing to the main product image
+ * @property {string} productAttr The attribute of html element containing main image source url
+ */
+
 module.exports = {
   "2halfmoon": {
     domain: "https://www.2halfmoon.com",

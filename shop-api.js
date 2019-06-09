@@ -1,6 +1,12 @@
 const cheerio = require("cheerio");
 const shopConfig = require("./shop-config");
 
+/**
+ * Loads, scrapes and returns the html from the provided url using the provided page
+ * @param {Page} page a puppeteer page
+ * @param {string} url the url to load
+ * @returns {Promise<string>}
+ */
 async function loadHtml(page, url) {
   try {
     await page.goto(url);
@@ -17,6 +23,12 @@ async function loadHtml(page, url) {
   }
 }
 
+/**
+ * Parses a search result page for the URL of the first result and returns it
+ * @param {ShopConfig} config The config to be used to parse the page
+ * @param {string} rawHTML The raw html to be parsed
+ * @returns {string}
+ */
 function parseSearch(config, rawHTML) {
   const $ = cheerio.load(rawHTML);
   let urlSuffix = $(config.searchPath).attr(config.searchAttr);
@@ -27,6 +39,12 @@ function parseSearch(config, rawHTML) {
   return urlSuffix[0] === "/" ? config.domain + urlSuffix : urlSuffix;
 }
 
+/**
+ * Parses a product page for the URL of the first image and returns it
+ * @param {ShopConfig} config The config to be used to parse the page
+ * @param {string} rawHTML The raw html to be parsed
+ * @returns {string}
+ */
 function parseProductPage(config, rawHTML) {
   const $ = cheerio.load(rawHTML);
   const url = $(config.productPath).attr(config.productAttr);
@@ -36,7 +54,15 @@ function parseProductPage(config, rawHTML) {
   return /^\/\//.test(url) ? "https:" + url : url;
 }
 
+/**
+ * Fetches and returns an image URL 
+ * @param {Page} page the puppeteer page to use to load data
+ * @param {string} vendor the vendor to be searched
+ * @param {string} product the product to search for
+ * @returns {Promise<{ searchUrl: string, productUrl: string, productImage: string }>}
+ */
 async function getProductImage(page, vendor, product) {
+  vendor = vendor.toLowerCase().replace(/\s/ig, "");
   let searchUrl, productUrl, productImage;
   try {
     const config = shopConfig[vendor];
@@ -54,18 +80,7 @@ async function getProductImage(page, vendor, product) {
   return { searchUrl, productUrl, productImage };
 }
 
-async function fetchRecord(page, { product, vendor }) {
-  vendor = vendor.toLowerCase().replace(/\s/ig, "");
-  try {
-    const { searchUrl, productUrl, productImage } = await getProductImage(page, vendor, product);
-    return [vendor, product, searchUrl, productUrl, productImage];
-  } catch (err) {
-    return [vendor, product]
-  }
-}
-
 module.exports = {
-  fetchRecord,
   getProductImage
 }
 
