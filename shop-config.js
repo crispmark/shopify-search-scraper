@@ -149,9 +149,25 @@ module.exports = {
     productPath: ".product-main-image img",
     productAttr: "src"
   },
+  "foureyes": {
+    domain: "https://www.foureyesceramics.com",
+    searchUrl: basicSearch,
+    searchPath: ".search-results :first-child",
+    searchAttr: "data-url",
+    productPath: ".productitem-images :first-child img",
+    productAttr: "data-image"
+  },
   "grouppartner": {
     domain: "https://group-partner.com",
     ...variant2
+  },
+  "happyfrenchgang": {
+    domain: "https://happyfrenchgang.myshopify.com",
+    searchUrl: productSearch,
+    searchPath: ".list-view-items :first-child",
+    searchAttr: "href",
+    productPath: ".product-single__photo :nth-child(2)",
+    productAttr: "src"
   },
   "hdh": {
     domain: "https://hackwithdesignhouse.com",
@@ -190,6 +206,10 @@ module.exports = {
   //   domain: "https://justfemale.com/",
   //   ...variant1
   // }
+  "jennylemons": {
+    domain: "http://www.jennylemons.com",
+    ...variant1
+  },
   "kordal": {
     domain: "https://kordalstudio.com",
     searchUrl: basicSearch,
@@ -216,6 +236,14 @@ module.exports = {
   //   productPath: "#slideshow :first-child img",
   //   productAttr: "data-src"
   // }
+  // "lebonshoppe": {
+  //   domain: "https://lebonshoppe.com",
+  //   searchUrl: basicSearch,
+  //   searchPath: ".list-view-items a",
+  //   searchAttr: "href",
+  //   productPath: ".product-single-photos a",
+  //   productAttr: "href"
+  // },
   "loup": {
     domain: "https://louponline.com",
     searchUrl: basicSearch,
@@ -296,6 +324,10 @@ module.exports = {
     domain: "http://www.planteclothing.com",
     ...variant1
   },
+  // "ritarow": {
+  //   domain: "https://www.ritarow.com",
+  //   ...variant1
+  // },
   "scarfshop": {
     domain: "http://www.scarf-shop.com",
     ...variant1,
@@ -337,6 +369,11 @@ module.exports = {
     ...variant1,
       productPath: "#productSlideshow img",
       productAttr: "src"
+  },
+  "sugarcandy": {
+    domain: "https://sugarcandymtn.com",
+    ...variant2,
+    productAttr: "src"
   },
   "takara": {
     domain: "https://shoptakara.com",
